@@ -2,6 +2,10 @@
 
 Enter your alt armory links to alturls_multiple.txt (link + \n). It will gather all the kill counts for each boss specified in alting.py
 
+Run alting.py
+
+(You can theoritically change/add/remove bosses from the source code but no promises.)
+
 This is particularly useful if you are farming for a spesific item with a given drop rate and you want to see just how many times you tried to get it.
 
 Current issues: 
