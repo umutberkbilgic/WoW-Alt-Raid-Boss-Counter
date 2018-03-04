@@ -12,7 +12,10 @@ bosses = ["Kael\\'thas Sunstrider",
           "Felhounds of Sargeras",
           "Gul\\'dan",
           "Archimonde",
-          "Mistress Sassz\\'ine"]
+          "Mistress Sassz\\'ine",
+          "The Lich King",
+          "Onyxia",
+          "Elegon"]
 
 str_diff    = "<div class=\"font-bliz-light-xSmall-beige\">"
 
@@ -46,10 +49,7 @@ def find_before_index(main_str, search_str, index):
     
     return left_index + found_index + 1
 
-# old str end: </span></div></div></div><div class=\"space-large\"></div></div><div class=\"Tooltip\"
-
 str_start = " x</span><span class=\"gutter-tiny inline\"></span><span class=\"font-bliz-light-xSmall-lightGreen\">"
-str_end = ""
 
 # str_start + bossname + str_end = str to search for in the html string
 
@@ -57,11 +57,11 @@ file = open("alturls_multiple.txt", "r") # open the txt file containing urls
 alt_links = file.read() # read the file and make it available to the program
 
 urls = alt_links.split("\n") # create url array
-no_of_alts = len(urls); # how many urls do we have
+no_of_alts = len(urls); # how many urls are there
 print ("Number of alts is " + str(no_of_alts))
 
 for i in range(0, no_of_alts):
-    print ("Loaded armory URL: " + urls[i] + "/pve") # make sure we have all the urls
+    print ("Loaded armory URL: " + urls[i] + "/pve") # make sure the urls are correct
 
 boss_kill_counter = [0] * no_of_bosses
 
@@ -69,10 +69,6 @@ for i in range(0, no_of_alts): # for every alt ...
     url = urls[i] + "/pve"
     html = urllib.request.urlopen(url)
     html_str = str(html.read())
-
-
-    # file = open("result_html.txt","w")
-    # file.write(html_str)
     
     print ("\n\n ------------------- Alt name: " +(urls[i])[55:])
 
@@ -81,13 +77,12 @@ for i in range(0, no_of_alts): # for every alt ...
         index = 1
         did_it_already = 0
         
-
         print ("\n" + bosses[j].replace("\\", ""))
         
         while(True):
             count = 0
             
-            search_str = "" + str_start + bosses[j] + str_end
+            search_str = "" + str_start + bosses[j]
             index = html_str.find(search_str, index + 1)
 
             difficulty_index_start = find_before_index(html_str, str_diff, index)
@@ -102,9 +97,12 @@ for i in range(0, no_of_alts): # for every alt ...
                 if (html_str[index-3] == '>'):
                     # 2 digit count
                     count = int(html_str[index-2 : index])
-                else:
+                elif (html_str[index-2] == '>'):
                     # 1 digit count
                     count = int(html_str[index-1 : index])
+                else:
+                    # 3 digit count
+                    count = int(html_str[index-3 : index])
 
                 if (did_it_already == 0):                    
                     
